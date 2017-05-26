@@ -1,0 +1,3 @@
+name: reversi
+dev_dependencies:
+    test: "^0.12.20"
