@@ -108,13 +108,53 @@ class Board {
 
     final t = _move2Loc(m);
     final x = t[0];
-    if (t[0] - 1 < 0) {
+    if (t[1] - 1 < 0) {
       return false;
     }
 
     var isSelf = false;
     var isOther = false;
     for (var y = t[1] - 1; y >= 0; y--) {
+      if (_board[x][y] == null) {
+        break;
+      }
+
+      if (_board[x][y] != disc) {
+        isOther = true;
+        continue;
+      }
+
+      if (!isOther && _board[x][y] == disc) {
+        break;
+      }
+
+      if (isOther && _board[x][y] == disc) {
+        isSelf = true;
+        break;
+      }
+    }
+
+    if (isOther && isSelf) {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool isSValid(Move m, Disc disc) {
+    if (_isEmpty(m) != true) {
+      return false;
+    }
+
+    final t = _move2Loc(m);
+    final x = t[0];
+    if (t[1] + 1 >= _SIZE) {
+      return false;
+    }
+
+    var isSelf = false;
+    var isOther = false;
+    for (var y = t[1] + 1; y < _SIZE; y++) {
       if (_board[x][y] == null) {
         break;
       }
