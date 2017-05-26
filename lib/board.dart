@@ -76,7 +76,7 @@ class Board {
     for (var i = 0; i < _SIZE; i++) {
       _board[i] = new List<Disc>(_SIZE);
     }
-    
+
     this[Move.d5] = Disc.Black;
     this[Move.e4] = Disc.Black;
     this[Move.d4] = Disc.White;
@@ -87,7 +87,7 @@ class Board {
     final t = _move2Loc(m);
     return _board[t[0]][t[1]];
   }
-  
+
   operator []=(Move m, Disc disc) {
     final t = _move2Loc(m);
     _board[t[0]][t[1]] = disc;
@@ -260,7 +260,7 @@ class Board {
 
     return false;
   }
-  
+
   bool isNEValid(Move m, Disc disc) {
     if (_isEmpty(m) != true) {
       return false;
@@ -270,7 +270,7 @@ class Board {
     if (t[0] + 1 >= _SIZE) {
       return false;
     }
-    
+
     if (t[1] - 1 < 0) {
       return false;
     }
@@ -299,7 +299,7 @@ class Board {
         isSelf = true;
         break;
       }
-      
+
       x++;
       y--;
     }
@@ -310,7 +310,57 @@ class Board {
 
     return false;
   }
-  
+
+  bool isNWValid(Move m, Disc disc) {
+    if (_isEmpty(m) != true) {
+      return false;
+    }
+
+    final t = _move2Loc(m);
+    if (t[0] - 1 < 0) {
+      return false;
+    }
+
+    if (t[1] - 1 < 0) {
+      return false;
+    }
+
+    var isSelf = false;
+    var isOther = false;
+    var x = t[0] - 1;
+    var y = t[1] - 1;
+    while (x >= 0 && y >= 0) {
+      if (_board[x][y] == null) {
+        break;
+      }
+
+      if (_board[x][y] != disc) {
+        isOther = true;
+        x--;
+        y--;
+        continue;
+      }
+
+      if (!isOther && _board[x][y] == disc) {
+        break;
+      }
+
+      if (isOther && _board[x][y] == disc) {
+        isSelf = true;
+        break;
+      }
+
+      x--;
+      y--;
+    }
+
+    if (isOther && isSelf) {
+      return true;
+    }
+
+    return false;
+  }
+
   bool _isEmpty(Move m) {
     final t = _move2Loc(m);
     if (_board[t[0]][t[1]] == null) {
