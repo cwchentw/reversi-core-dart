@@ -221,6 +221,46 @@ class Board {
     return false;
   }
 
+  bool isWValid(Move m, Disc disc) {
+    if (_isEmpty(m) != true) {
+      return false;
+    }
+
+    final t = _move2Loc(m);
+    final y = t[1];
+    if (t[0] - 1 < 0) {
+      return false;
+    }
+
+    var isSelf = false;
+    var isOther = false;
+    for (var x = t[0] - 1; x >= 0; x--) {
+      if (_board[x][y] == null) {
+        break;
+      }
+
+      if (_board[x][y] != disc) {
+        isOther = true;
+        continue;
+      }
+
+      if (!isOther && _board[x][y] == disc) {
+        break;
+      }
+
+      if (isOther && _board[x][y] == disc) {
+        isSelf = true;
+        break;
+      }
+    }
+
+    if (isOther && isSelf) {
+      return true;
+    }
+
+    return false;
+  }
+  
   bool _isEmpty(Move m) {
     final t = _move2Loc(m);
     if (_board[t[0]][t[1]] == null) {
