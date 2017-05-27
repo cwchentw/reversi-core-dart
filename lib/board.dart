@@ -176,6 +176,25 @@ class Board {
     }
   }
 
+  void _toggleNW(Move m, Disc disc) {
+    _setAt(m, disc);
+
+    final t = _move2Loc(m);
+    var x = t[0] - 1;
+    var y = t[1] - 1;
+
+    while (x >= 0 && y >= 0) {
+      if (_board[x][y] != disc) {
+        _board[x][y] = disc;
+      } else {
+        break;
+      }
+
+      x--;
+      y--;
+    }
+  }
+
   void _setAt(Move m, Disc disc) {
     final t = _move2Loc(m);
     _board[t[0]][t[1]] = disc;
@@ -879,7 +898,7 @@ void main() {
   -------------------------
   |  |  |  |  |  |  |  |  |
   */
-  test("_toggleW", () {
+  test("_toggleNE", () {
     Board b = new Board();
 
     b._setAt(Move.d5, Disc.White);
@@ -896,6 +915,42 @@ void main() {
     expect(b[Move.e5], Disc.White);
 
     expect(b[Move.c4], null);
+  });
+
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |B |B |  |  |
+  -------------------------
+  |  |  |  |  |  |o |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_toggleNW", () {
+    Board b = new Board();
+
+    b._setAt(Move.d5, Disc.Black);
+    b._setAt(Move.f5, Disc.Black);
+
+    b._toggleNW(Move.f6, Disc.White);
+
+    expect(b[Move.d4], Disc.White);
+    expect(b[Move.e5], Disc.White);
+    expect(b[Move.f6], Disc.White);
+
+    expect(b[Move.d5], Disc.Black);
+    expect(b[Move.e4], Disc.Black);
+    expect(b[Move.f5], Disc.Black);
+
+    expect(b[Move.f4], null);
   });
 
   /*
