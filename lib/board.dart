@@ -91,10 +91,91 @@ class Board {
   }
 
   operator []=(Move m, Disc disc) {
-    if (!isValid(m, disc)) {
-      throw 'Invalid move';
+    bool isValid = false;
+    bool isN = false;
+    bool isS = false;
+    bool isE = false;
+    bool isW = false;
+    bool isNE = false;
+    bool isNW = false;
+    bool isSE = false;
+    bool isSW = false;
+
+    if (_isNValid(m, disc)) {
+      isN = true;
+      isValid = true;
     }
-    _setAt(m, disc);
+
+    if (_isSValid(m, disc)) {
+      isS = true;
+      isValid = true;
+    }
+
+    if (_isEValid(m, disc)) {
+      isE = true;
+      isValid = true;
+    }
+
+    if (_isWValid(m, disc)) {
+      isW = true;
+      isValid = true;
+    }
+
+    if (_isNEValid(m, disc)) {
+      isNE = true;
+      isValid = true;
+    }
+
+    if (_isNWValid(m, disc)) {
+      isNW = true;
+      isValid = true;
+    }
+
+    if (_isSEValid(m, disc)) {
+      isSE = true;
+      isValid = true;
+    }
+
+    if (_isSWValid(m, disc)) {
+      isSW = true;
+      isValid = true;
+    }
+
+    if (!isValid) {
+      throw 'Not a valid move';
+    }
+
+    if (isN) {
+      _toggleN(m, disc);
+    }
+
+    if (isS) {
+      _toggleS(m, disc);
+    }
+
+    if (isE) {
+      _toggleE(m, disc);
+    }
+
+    if (isW) {
+      _toggleW(m, disc);
+    }
+
+    if (isNE) {
+      _toggleNE(m, disc);
+    }
+
+    if (isNW) {
+      _toggleNW(m, disc);
+    }
+
+    if (isSE) {
+      _toggleSE(m, disc);
+    }
+
+    if (isSW) {
+      _toggleSW(m, disc);
+    }
   }
 
   void _toggleN(Move m, Disc disc) {

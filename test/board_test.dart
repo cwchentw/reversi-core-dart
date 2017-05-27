@@ -34,4 +34,33 @@ void main() {
 
     expect(new Set.from(m), new Set.from([Move.c4, Move.d3, Move.e6, Move.f5]));
   });
+
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |o |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("Board move", () {
+    Board b = new Board();
+    b[Move.e6] = Disc.Black;
+
+    expect(b[Move.e3], null);
+    expect(b[Move.e4], Disc.Black);
+    expect(b[Move.e5], Disc.Black);
+    expect(b[Move.e6], Disc.Black);
+
+    expect(b[Move.d4], Disc.White);
+  });
 }
