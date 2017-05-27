@@ -79,10 +79,10 @@ class Board {
       _board[i] = new List<Disc>(_SIZE);
     }
 
-    this[Move.d5] = Disc.Black;
-    this[Move.e4] = Disc.Black;
-    this[Move.d4] = Disc.White;
-    this[Move.e5] = Disc.White;
+    _setAt(Move.d5, Disc.Black);
+    _setAt(Move.e4, Disc.Black);
+    _setAt(Move.d4, Disc.White);
+    _setAt(Move.e5, Disc.White);
   }
 
   operator [](Move m) {
@@ -91,8 +91,15 @@ class Board {
   }
 
   operator []=(Move m, Disc disc) {
+    if (!isValid(m, disc)) {
+      throw 'Invalid move';
+    }
+    _setAt(m, disc);
+  }
+  
+  void _setAt(Move m, Disc disc) {
     final t = _move2Loc(m);
-    _board[t[0]][t[1]] = disc;
+    _board[t[0]][t[1]] = disc;   
   }
 
   bool isValid(Move m, Disc disc) {
@@ -412,6 +419,56 @@ class Board {
 
     return false;
   }
+  
+  bool _isSEValid(Move m, Disc disc) {
+    if (_isEmpty(m) != true) {
+      return false;
+    }
+
+    final t = _move2Loc(m);
+    if (t[0] + 1 >= _SIZE) {
+      return false;
+    }
+
+    if (t[1] + 1 >= _SIZE) {
+      return false;
+    }
+
+    var isSelf = false;
+    var isOther = false;
+    var x = t[0] + 1;
+    var y = t[1] + 1;
+    while (x < _SIZE && y < _SIZE) {
+      if (_board[x][y] == null) {
+        break;
+      }
+
+      if (_board[x][y] != disc) {
+        isOther = true;
+        x++;
+        y++;
+        continue;
+      }
+
+      if (!isOther && _board[x][y] == disc) {
+        break;
+      }
+
+      if (isOther && _board[x][y] == disc) {
+        isSelf = true;
+        break;
+      }
+
+      x++;
+      y++;
+    }
+
+    if (isOther && isSelf) {
+      return true;
+    }
+
+    return false;
+  }
 
   bool _isEmpty(Move m) {
     final t = _move2Loc(m);
@@ -680,7 +737,7 @@ void main() {
   */
   test("_isNValid valid", () {
     Board b = new Board();
-    b[Move.e6] = Disc.White;
+    b._setAt(Move.e6, Disc.White);
     expect(b._isNValid(Move.e7, Disc.Black), true);
   });
   
@@ -703,7 +760,7 @@ void main() {
   */
   test("_isNValid invalid", () {
     Board b = new Board();
-    b[Move.d3] = Disc.White;
+    b._setAt(Move.d3, Disc.White);
     expect(b._isNValid(Move.d6, Disc.Black), false);
   });
   
@@ -792,7 +849,7 @@ void main() {
   */
   test("_isSValid valid", () {
     Board b = new Board();
-    b[Move.d3] = Disc.White;
+    b._setAt(Move.d3, Disc.White);
     expect(b._isSValid(Move.d2, Disc.Black), true);
   });
   
@@ -815,7 +872,7 @@ void main() {
   */
   test("_isSValid invalid", () {
     Board b = new Board();
-    b[Move.e6] = Disc.White;
+    b._setAt(Move.e6, Disc.White);
     expect(b._isSValid(Move.e3, Disc.Black), false);
   });
   
@@ -904,7 +961,7 @@ void main() {
   */
   test("_isEValid valid", () {
     Board b = new Board();
-    b[Move.c4] = Disc.White;
+    b._setAt(Move.c4, Disc.White);
     expect(b._isEValid(Move.b4, Disc.Black), true);
   });
   
@@ -927,7 +984,7 @@ void main() {
   */
   test("_isEValid invalid", () {
     Board b = new Board();
-    b[Move.f5] = Disc.White;
+    b._setAt(Move.f5, Disc.White);
     expect(b._isEValid(Move.c5, Disc.Black), false);
   });
   
@@ -1016,7 +1073,7 @@ void main() {
   */
   test("_isWValid valid", () {
     Board b = new Board();
-    b[Move.f5] = Disc.White;
+    b._setAt(Move.f5, Disc.White);
     expect(b._isWValid(Move.g5, Disc.Black), true);
   });
   
@@ -1039,7 +1096,7 @@ void main() {
   */
   test("_isWValid invalid", () {
     Board b = new Board();
-    b[Move.c4] = Disc.White;
+    b._setAt(Move.c4, Disc.White);
     expect(b._isWValid(Move.g4, Disc.Black), false);
   });
   
@@ -1128,7 +1185,7 @@ void main() {
   */
   test("_isNEValid valid", () {
     Board b = new Board();
-    b[Move.e3] = Disc.Black;
+    b._setAt(Move.e3, Disc.Black);
     expect(b._isNEValid(Move.c5, Disc.Black), true);
   });
   
@@ -1151,7 +1208,7 @@ void main() {
   */
   test("_isNEValid invalid", () {
     Board b = new Board();
-    b[Move.c5] = Disc.Black;
+    b._setAt(Move.c5, Disc.Black);
     expect(b._isNEValid(Move.b6, Disc.Black), false);
   });
   
@@ -1240,7 +1297,7 @@ void main() {
   */
   test("_isNWValid valid", () {
     Board b = new Board();
-    b[Move.f5] = Disc.White;
+    b._setAt(Move.f5, Disc.White);
     expect(b._isNWValid(Move.g6, Disc.Black), true);
   });
   
@@ -1263,7 +1320,7 @@ void main() {
   */
   test("_isNWValid invalid", () {
     Board b = new Board();
-    b[Move.c4] = Disc.White;
+    b._setAt(Move.c4, Disc.White);
     expect(b._isNWValid(Move.e6, Disc.Black), false);
   });
   
@@ -1352,10 +1409,10 @@ void main() {
   */
   test("_isSWValid valid", () {
     Board b = new Board();
-    
-    b[Move.d5] = Disc.White;
-    b[Move.d6] = Disc.White;
-    b[Move.c7] = Disc.Black;
+
+    b._setAt(Move.d5, Disc.White);
+    b._setAt(Move.d6, Disc.White);
+    b._setAt(Move.c7, Disc.Black);
     
     expect(b._isSWValid(Move.f4, Disc.Black), true);
   });
@@ -1379,10 +1436,122 @@ void main() {
   */
   test("_isSWValid invalid", () {
     Board b = new Board();
-    
-    b[Move.d5] = Disc.White;
-    b[Move.d6] = Disc.White;
+
+    b._setAt(Move.d5, Disc.White);
+    b._setAt(Move.d6, Disc.White);
     
     expect(b._isSWValid(Move.f4, Disc.Black), false);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |Wo|B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_isSEValid occupied", () {
+    Board b = new Board();
+    expect(b._isSEValid(Move.d4, Disc.Black), false);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |o |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_isSEValid empty", () {
+    Board b = new Board();
+    expect(b._isSEValid(Move.b2, Disc.Black), false);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |o |  |  |  |  |  |
+  */
+  test("_isSEValid side", () {
+    Board b = new Board();
+    expect(b._isSEValid(Move.c8, Disc.Black), false);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |o |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |B |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_isSEValid valid", () {
+    Board b = new Board();
+    b._setAt(Move.f6, Disc.Black);
+    expect(b._isSEValid(Move.c8, Disc.Black), false);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |o |  |  |  |  |  |  |
+  -------------------------
+  |  |  |B |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_isSEValid valid", () {
+    Board b = new Board();
+    b._setAt(Move.c3, Disc.Black);
+    expect(b._isSEValid(Move.b2, Disc.Black), false);
   });
 }
