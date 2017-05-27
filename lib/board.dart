@@ -97,14 +97,9 @@ class Board {
     _setAt(m, disc);
   }
 
-  void _setAt(Move m, Disc disc) {
-    final t = _move2Loc(m);
-    _board[t[0]][t[1]] = disc;
-  }
-
   void _toggleN(Move m, Disc disc) {
     _setAt(m, disc);
-    
+
     final t = _move2Loc(m);
     final x = t[0];
 
@@ -116,10 +111,10 @@ class Board {
       }
     }
   }
-  
+
   void _toggleS(Move m, Disc disc) {
     _setAt(m, disc);
-    
+
     final t = _move2Loc(m);
     final x = t[0];
 
@@ -134,7 +129,7 @@ class Board {
 
   void _toggleE(Move m, Disc disc) {
     _setAt(m, disc);
-    
+
     final t = _move2Loc(m);
     final y = t[1];
 
@@ -145,6 +140,26 @@ class Board {
         break;
       }
     }
+  }
+
+  void _toggleW(Move m, Disc disc) {
+    _setAt(m, disc);
+
+    final t = _move2Loc(m);
+    final y = t[1];
+
+    for (var x = t[0] - 1; x >= 0; x--) {
+      if (_board[x][y] != disc) {
+        _board[x][y] = disc;
+      } else {
+        break;
+      }
+    }
+  }
+
+  void _setAt(Move m, Disc disc) {
+    final t = _move2Loc(m);
+    _board[t[0]][t[1]] = disc;
   }
 
   List<Disc> validMoves(Disc disc) {
@@ -736,14 +751,14 @@ void main() {
   test("_toggleN", () {
     Board b = new Board();
     b._toggleN(Move.e6, Disc.Black);
-    
+
     expect(b[Move.e5], Disc.Black);
     expect(b[Move.e6], Disc.Black);
     expect(b[Move.e4], Disc.Black);
     expect(b[Move.e3], null);
     expect(b[Move.d4], Disc.White);
   });
-  
+
   /*
   |  |  |  |  |  |  |  |  |
   -------------------------
@@ -764,14 +779,14 @@ void main() {
   test("_toggleS", () {
     Board b = new Board();
     b._toggleS(Move.d3, Disc.Black);
-    
+
     expect(b[Move.d3], Disc.Black);
     expect(b[Move.d4], Disc.Black);
     expect(b[Move.d5], Disc.Black);
     expect(b[Move.d6], null);
     expect(b[Move.e5], Disc.White);
   });
-  
+
   /*
   |  |  |  |  |  |  |  |  |
   -------------------------
@@ -792,12 +807,40 @@ void main() {
   test("_toggleE", () {
     Board b = new Board();
     b._toggleE(Move.c4, Disc.Black);
-    
+
     expect(b[Move.c4], Disc.Black);
     expect(b[Move.d4], Disc.Black);
     expect(b[Move.e4], Disc.Black);
     expect(b[Move.f4], null);
     expect(b[Move.e5], Disc.White);
+  });
+
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |o |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_toggleW", () {
+    Board b = new Board();
+    b._toggleW(Move.f5, Disc.Black);
+
+    expect(b[Move.d5], Disc.Black);
+    expect(b[Move.e5], Disc.Black);
+    expect(b[Move.f5], Disc.Black);
+    expect(b[Move.c5], null);
+    expect(b[Move.d4], Disc.White);
   });
 
   /*
