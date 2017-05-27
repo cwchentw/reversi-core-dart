@@ -1,7 +1,8 @@
 import "package:test/test.dart";
 
 const _SIZE = 8;
-enum Disc { White, Black }
+enum Disc { Black, White }
+enum Win { Black, White, Tie }
 enum Move {
   a1,
   a2,
@@ -83,6 +84,33 @@ class Board {
     _setAt(Move.e4, Disc.Black);
     _setAt(Move.d4, Disc.White);
     _setAt(Move.e5, Disc.White);
+  }
+
+  Win win() {
+    var map = new Map();
+    map[Disc.Black] = 0;
+    map[Disc.White] = 0;
+
+    for (var i = 0; i < _SIZE; i++) {
+      for (var j = 0; j < _SIZE; j++) {
+        var n = _board[i][j];
+        switch (n) {
+          case Disc.Black:
+            map[Disc.Black]++;
+            break;
+          case Disc.White:
+            map[Disc.White]++;
+        }
+      }
+    }
+
+    if (map[Disc.Black] > map[Disc.White]) {
+      return Win.Black;
+    } else if (map[Disc.Black] < map[Disc.White]) {
+      return Win.White;
+    } else {
+      return Win.Tie;
+    }
   }
 
   operator [](Move m) {

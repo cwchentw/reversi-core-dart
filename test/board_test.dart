@@ -63,4 +63,12 @@ void main() {
 
     expect(b[Move.d4], Disc.White);
   });
+
+  test("Board winner", () {
+    Board b = new Board();
+    expect(b.win(), Win.Tie);
+
+    b[Move.e6] = Disc.Black;
+    expect(b.win(), Win.Black);
+  });
 }
