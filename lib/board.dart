@@ -102,11 +102,56 @@ class Board {
     _board[t[0]][t[1]] = disc;
   }
 
+  void _toggleN(Move m, Disc disc) {
+    _setAt(m, disc);
+    
+    final t = _move2Loc(m);
+    final x = t[0];
+
+    for (var y = t[1] - 1; y >= 0; y--) {
+      if (_board[x][y] != disc) {
+        _board[x][y] = disc;
+      } else {
+        break;
+      }
+    }
+  }
+  
+  void _toggleS(Move m, Disc disc) {
+    _setAt(m, disc);
+    
+    final t = _move2Loc(m);
+    final x = t[0];
+
+    for (var y = t[1] + 1; y < _SIZE; y++) {
+      if (_board[x][y] != disc) {
+        _board[x][y] = disc;
+      } else {
+        break;
+      }
+    }
+  }
+
+  void _toggleE(Move m, Disc disc) {
+    _setAt(m, disc);
+    
+    final t = _move2Loc(m);
+    final y = t[1];
+
+    for (var x = t[0] + 1; x < _SIZE; x++) {
+      if (_board[x][y] != disc) {
+        _board[x][y] = disc;
+      } else {
+        break;
+      }
+    }
+  }
+
   List<Disc> moves(Disc disc) {
     List<Disc> moves = [];
 
     for (var m in Move.values) {
-      if (isValid(m, disc)) {
+      if (_isValid(m, disc)) {
         moves.add(m);
       }
     }
@@ -114,7 +159,7 @@ class Board {
     return moves;
   }
 
-  bool isValid(Move m, Disc disc) {
+  bool _isValid(Move m, Disc disc) {
     if (_isNValid(m, disc) == true ||
         _isSValid(m, disc) == true ||
         _isEValid(m, disc) == true ||
@@ -671,6 +716,90 @@ Move _loc2Move(int x, int y) {
 
 // Unit tests for private methods
 void main() {
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |o |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_toggleN", () {
+    Board b = new Board();
+    b._toggleN(Move.e6, Disc.Black);
+    
+    expect(b[Move.e5], Disc.Black);
+    expect(b[Move.e6], Disc.Black);
+    expect(b[Move.e4], Disc.Black);
+    expect(b[Move.e3], null);
+    expect(b[Move.d4], Disc.White);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |o |  |  |  |  |
+  -------------------------
+  |  |  |  |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_toggleS", () {
+    Board b = new Board();
+    b._toggleS(Move.d3, Disc.Black);
+    
+    expect(b[Move.d3], Disc.Black);
+    expect(b[Move.d4], Disc.Black);
+    expect(b[Move.d5], Disc.Black);
+    expect(b[Move.d6], null);
+    expect(b[Move.e5], Disc.White);
+  });
+  
+  /*
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |o |W |B |  |  |  |
+  -------------------------
+  |  |  |  |B |W |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  -------------------------
+  |  |  |  |  |  |  |  |  |
+  */
+  test("_toggleE", () {
+    Board b = new Board();
+    b._toggleE(Move.c4, Disc.Black);
+    
+    expect(b[Move.c4], Disc.Black);
+    expect(b[Move.d4], Disc.Black);
+    expect(b[Move.e4], Disc.Black);
+    expect(b[Move.f4], null);
+    expect(b[Move.e5], Disc.White);
+  });
+
   /*
   |  |  |  |  |  |  |  |  |
   -------------------------
