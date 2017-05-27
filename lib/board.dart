@@ -147,7 +147,7 @@ class Board {
     }
   }
 
-  List<Disc> moves(Disc disc) {
+  List<Disc> validMoves(Disc disc) {
     List<Disc> moves = [];
 
     for (var m in Move.values) {

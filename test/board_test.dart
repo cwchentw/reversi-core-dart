@@ -28,9 +28,9 @@ void main() {
   -------------------------
   |  |  |  |  |  |  |  |  |
   */
-  test("Board moves", () {
+  test("Board valid moves", () {
     Board b = new Board();
-    var m = b.moves(Disc.Black);
+    var m = b.validMoves(Disc.Black);
 
     expect(new Set.from(m), new Set.from([Move.c4, Move.d3, Move.e6, Move.f5]));
   });
