@@ -6,6 +6,7 @@ description: >
   
   This package bundles with a Reversi console program for demo purpose.
 author: Michael Chen <cwchen.tw@outlook.com>
+homepage: http://github.com/cwchentw/reversi-core-dart
 executables:
   reversi:
 dependencies:
