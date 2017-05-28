@@ -2,9 +2,9 @@ name: reversi
 version: 0.1.0
 description: >
   This package implements the core algorithm for Reversi (Othello).
-  You have to code your own UI to code Reversi with this package.
+  You have to code your own UI to program a Reversi game.
   
-  This package bundles with a Reversi console program for demonstration.
+  This package bundles with a Reversi console program for demo purpose.
 author: Michael Chen <cwchen.tw@outlook.com>
 executables:
   reversi:

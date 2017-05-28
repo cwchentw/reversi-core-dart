@@ -2,7 +2,25 @@
 
 This repo implements the core algorithm for Reversi. No UI part.
 
+## Install
+
+Install the console program:
+
+```
+pub global activate --source git https://github.com/cwchentw/reversi-core-dart.git
+```
+
+You may install the package locally:
+
+```
+dependencies:
+  reversi:
+    git: https://github.com/cwchentw/reversi-core-dart.git
+```
+
 ## Usage
+
+Play our console program:
 
 ```
 $ reversi
@@ -35,7 +53,7 @@ Please move your disc (a1-h8): ...
 
 Dart is a cross-platform programming language capable of web frontend, web backend, mobile, and console applications. The package implemented the core business logic for Reversi. You may utilize this package for diverse applications.
 
-We shiped a console Reversi program for demo purpose. Currently, there is only one level of bot. See the source of our console program for more details. More applicaions are on the way.
+We shipped a console Reversi program for demo purpose. Currently, there is only one level of bot. See the source of our console program for more details. More bots and applicaions are on the way.
 
 You may implement your own Reversi bot. You only need to fulfill this interface:
 
