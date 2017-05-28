@@ -1,15 +1,19 @@
 import 'board.dart';
 
-final pattern = new RegExp(r'^[a-h][1-8]$');
+final _pattern = new RegExp(r'^[a-h][1-8]$');
 
+/// Check whether the string fits Move format.
+///
+/// A valid move format is like 'd3'. Its pattern is <pre>/^[a-h][1-8]$/</pre>.
 bool checkMove(string s) {
-  if (s.contains(pattern)) {
+  if (s.contains(_pattern)) {
     return true;
   }
 
   return false;
 }
 
+/// Convert Reversi move to (x, y) point, packged in a list, i.e. [x, y].
 List<int> move2Loc(Move m) {
   var x = (m.index / 8).floor().toInt();
   var y = m.index % 8;
@@ -20,6 +24,9 @@ List<int> move2Loc(Move m) {
   return list;
 }
 
+/// Convert string to Reversi move.
+///
+/// You should check the validity of the string before using this method.
 Move str2Move(string s) {
   final ncol = s.substring(0, 1).codeUnitAt(0);
   final nrow = int.parse(s.substring(1, 2));
@@ -28,6 +35,7 @@ Move str2Move(string s) {
   return loc2Move(ncol - 97, nrow - 1);
 }
 
+/// Convert (x, y) point into Reversi move.
 Move loc2Move(int x, int y) {
   switch (x) {
     case 0:

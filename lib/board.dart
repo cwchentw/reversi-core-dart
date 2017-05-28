@@ -1,8 +1,29 @@
 import 'utils.dart';
 
 const _SIZE = 8;
+
+/// The discs in Reversi.
 enum Disc { Black, White }
+
+/// The game status.
 enum Win { Black, White, Tie }
+
+/// Available moves in Reversi.
+///
+/// In the following format:
+///
+///<pre>
+///   |a |b |c |d |e |f |g |h |
+/// 1 |  |  |  |  |  |  |  |  |1
+/// 2 |  |  |  |  |  |  |  |  |2
+/// 3 |  |  |  |  |  |  |  |  |3
+/// 4 |  |  |  |W |B |  |  |  |4
+/// 5 |  |  |  |B |W |  |  |  |5
+/// 6 |  |  |  |  |  |  |  |  |6
+/// 7 |  |  |  |  |  |  |  |  |7
+/// 8 |  |  |  |  |  |  |  |  |8
+///   |a |b |c |d |e |f |g |h |
+///</pre>
 enum Move {
   a1,
   a2,
@@ -70,6 +91,7 @@ enum Move {
   h8
 }
 
+/// Reversi Board.
 class Board {
   List<List<Disc>> _board;
 
@@ -86,6 +108,9 @@ class Board {
     _setAt(Move.e5, Disc.White);
   }
 
+  /// Show the winner of the board.
+  ///
+  /// This method only show current winner. Therefore, only call it when the game is over.
   Win win() {
     var map = new Map();
     map[Disc.Black] = 0;
@@ -113,6 +138,7 @@ class Board {
     }
   }
 
+  /// Calculate the number of current black discs.
   int black() {
     var map = new Map();
     var count = 0;
@@ -129,6 +155,7 @@ class Board {
     return count;
   }
 
+  /// Calculate the number of current white discs.
   int white() {
     var map = new Map();
     var count = 0;
@@ -145,11 +172,15 @@ class Board {
     return count;
   }
 
+  /// Get current disc at specific move.
   operator [](Move m) {
     final t = move2Loc(m);
     return _board[t[0]][t[1]];
   }
 
+  /// Set a disc at specific move.
+  ///
+  /// Throw an exception string 'Not a valid move' when no valid move.
   operator []=(Move m, Disc disc) {
     bool isValid = false;
     bool isN = false;
@@ -379,6 +410,7 @@ class Board {
     _board[t[0]][t[1]] = disc;
   }
 
+  /// Get valid moves for specific disc.
   List<Disc> validMoves(Disc disc) {
     List<Disc> moves = [];
 
@@ -774,7 +806,7 @@ class Board {
   }
 }
 
-// Unit tests for private methods
+/// Only for testing on some private methods.
 void main() {
   /*
   |  |  |  |  |  |  |  |  |

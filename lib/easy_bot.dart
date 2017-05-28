@@ -5,6 +5,9 @@ import 'bot.dart';
 import 'board.dart';
 import 'utils.dart';
 
+/// A easy level Reversi bot.
+///
+/// We use only one level weight table for its AI, intending for beginners.
 class EasyBot implements Bot {
   static Matrix _weights = new Matrix.fromMatrix([
     [99, -8, 8, 6, 6, 8, -8, 99],

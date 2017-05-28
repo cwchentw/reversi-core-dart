@@ -1,5 +1,5 @@
 name: reversi
-version: 0.1.0
+version: 0.1.1
 description: >
   This package implements the core algorithm for Reversi (Othello).
   You have to code your own UI to program a Reversi game.
