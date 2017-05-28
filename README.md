@@ -7,15 +7,14 @@ This repo implements the core algorithm for Reversi. No UI part.
 Install the console program:
 
 ```
-pub global activate --source git https://github.com/cwchentw/reversi-core-dart.git
+pub global activate reversi
 ```
 
 You may install the package locally:
 
 ```
 dependencies:
-  reversi:
-    git: https://github.com/cwchentw/reversi-core-dart.git
+  reversi: "^0.1.0"
 ```
 
 ## Usage
