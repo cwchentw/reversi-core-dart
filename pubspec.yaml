@@ -9,6 +9,7 @@ author: Michael Chen <cwchen.tw@outlook.com>
 executables:
   reversi:
 dependencies:
-  test: "^0.12.20"
   algo:
     git: https://github.com/cwchentw/algo-dart.git
+dev_dependencies:
+  test: "^0.12.20"
