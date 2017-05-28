@@ -2,11 +2,13 @@ name: reversi
 version: 0.1.0
 description: >
   This package implements the core algorithm for Reversi (Othello).
-  You have to code your own UI to play Reversi with this package.
+  You have to code your own UI to code Reversi with this package.
   
-  This package bundles with a Reversi console program.
+  This package bundles with a Reversi console program for demonstration.
 author: Michael Chen <cwchen.tw@outlook.com>
 executables:
   reversi:
 dependencies:
   test: "^0.12.20"
+  algo:
+    git: https://github.com/cwchentw/algo-dart.git

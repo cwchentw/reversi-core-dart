@@ -1,5 +1,7 @@
 import "package:test/test.dart";
 
+import 'utils.dart';
+
 const _SIZE = 8;
 enum Disc { Black, White }
 enum Win { Black, White, Tie }
@@ -112,9 +114,41 @@ class Board {
       return Win.Tie;
     }
   }
+  
+  int black() {
+    var map = new Map();
+    var count = 0;
+
+    for (var i = 0; i < _SIZE; i++) {
+      for (var j = 0; j < _SIZE; j++) {
+        var n = _board[i][j];
+        if (n == Disc.Black) {
+          count++;
+        }
+      }
+    }
+    
+    return count;
+  }
+  
+  int white() {
+    var map = new Map();
+    var count = 0;
+
+    for (var i = 0; i < _SIZE; i++) {
+      for (var j = 0; j < _SIZE; j++) {
+        var n = _board[i][j];
+        if (n == Disc.White) {
+          count++;
+        }
+      }
+    }
+    
+    return count;
+  }
 
   operator [](Move m) {
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     return _board[t[0]][t[1]];
   }
 
@@ -209,7 +243,7 @@ class Board {
   void _toggleN(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final x = t[0];
 
     for (var y = t[1] - 1; y >= 0; y--) {
@@ -224,7 +258,7 @@ class Board {
   void _toggleS(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final x = t[0];
 
     for (var y = t[1] + 1; y < _SIZE; y++) {
@@ -239,7 +273,7 @@ class Board {
   void _toggleE(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final y = t[1];
 
     for (var x = t[0] + 1; x < _SIZE; x++) {
@@ -254,7 +288,7 @@ class Board {
   void _toggleW(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final y = t[1];
 
     for (var x = t[0] - 1; x >= 0; x--) {
@@ -269,7 +303,7 @@ class Board {
   void _toggleNE(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     var x = t[0] + 1;
     var y = t[1] - 1;
 
@@ -288,7 +322,7 @@ class Board {
   void _toggleNW(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     var x = t[0] - 1;
     var y = t[1] - 1;
 
@@ -307,7 +341,7 @@ class Board {
   void _toggleSW(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     var x = t[0] - 1;
     var y = t[1] + 1;
 
@@ -326,7 +360,7 @@ class Board {
   void _toggleSE(Move m, Disc disc) {
     _setAt(m, disc);
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     var x = t[0] + 1;
     var y = t[1] + 1;
 
@@ -343,7 +377,7 @@ class Board {
   }
 
   void _setAt(Move m, Disc disc) {
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     _board[t[0]][t[1]] = disc;
   }
 
@@ -379,7 +413,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final x = t[0];
     if (t[1] - 1 < 0) {
       return false;
@@ -419,7 +453,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final x = t[0];
     if (t[1] + 1 >= _SIZE) {
       return false;
@@ -459,7 +493,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final y = t[1];
     if (t[0] + 1 >= _SIZE) {
       return false;
@@ -499,7 +533,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     final y = t[1];
     if (t[0] - 1 < 0) {
       return false;
@@ -539,7 +573,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     if (t[0] + 1 >= _SIZE) {
       return false;
     }
@@ -589,7 +623,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     if (t[0] - 1 < 0) {
       return false;
     }
@@ -639,7 +673,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     if (t[0] - 1 < 0) {
       return false;
     }
@@ -689,7 +723,7 @@ class Board {
       return false;
     }
 
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     if (t[0] + 1 >= _SIZE) {
       return false;
     }
@@ -735,183 +769,11 @@ class Board {
   }
 
   bool _isEmpty(Move m) {
-    final t = _move2Loc(m);
+    final t = move2Loc(m);
     if (_board[t[0]][t[1]] == null) {
       return true;
     }
   }
-}
-
-List<int> _move2Loc(Move m) {
-  var x = (m.index / 8).floor().toInt();
-  var y = m.index % 8;
-  return _getLoc(x, y);
-}
-
-List<int> _getLoc(int x, int y) {
-  var list = new List(2);
-  list[0] = x;
-  list[1] = y;
-  return list;
-}
-
-Move _loc2Move(int x, int y) {
-  switch (x) {
-    case 0:
-      switch (y) {
-        case 0:
-          return Move.a1;
-        case 1:
-          return Move.a2;
-        case 2:
-          return Move.a3;
-        case 3:
-          return Move.a4;
-        case 4:
-          return Move.a5;
-        case 5:
-          return Move.a6;
-        case 6:
-          return Move.a7;
-        case 7:
-          return Move.a8;
-      }
-    case 1:
-      switch (y) {
-        case 0:
-          return Move.b1;
-        case 1:
-          return Move.b2;
-        case 2:
-          return Move.b3;
-        case 3:
-          return Move.b4;
-        case 4:
-          return Move.b5;
-        case 5:
-          return Move.b6;
-        case 6:
-          return Move.b7;
-        case 7:
-          return Move.b8;
-      }
-    case 2:
-      switch (y) {
-        case 0:
-          return Move.c1;
-        case 1:
-          return Move.c2;
-        case 2:
-          return Move.c3;
-        case 3:
-          return Move.c4;
-        case 4:
-          return Move.c5;
-        case 5:
-          return Move.c6;
-        case 6:
-          return Move.c7;
-        case 7:
-          return Move.c8;
-      }
-    case 3:
-      switch (y) {
-        case 0:
-          return Move.d1;
-        case 1:
-          return Move.d2;
-        case 2:
-          return Move.d3;
-        case 3:
-          return Move.d4;
-        case 4:
-          return Move.d5;
-        case 5:
-          return Move.d6;
-        case 6:
-          return Move.d7;
-        case 7:
-          return Move.d8;
-      }
-    case 4:
-      switch (y) {
-        case 0:
-          return Move.e1;
-        case 1:
-          return Move.e2;
-        case 2:
-          return Move.e3;
-        case 3:
-          return Move.e4;
-        case 4:
-          return Move.e5;
-        case 5:
-          return Move.e6;
-        case 6:
-          return Move.e7;
-        case 7:
-          return Move.e8;
-      }
-    case 5:
-      switch (y) {
-        case 0:
-          return Move.f1;
-        case 1:
-          return Move.f2;
-        case 2:
-          return Move.f3;
-        case 3:
-          return Move.f4;
-        case 4:
-          return Move.f5;
-        case 5:
-          return Move.f6;
-        case 6:
-          return Move.f7;
-        case 7:
-          return Move.f8;
-      }
-    case 6:
-      switch (y) {
-        case 0:
-          return Move.g1;
-        case 1:
-          return Move.g2;
-        case 2:
-          return Move.g3;
-        case 3:
-          return Move.g4;
-        case 4:
-          return Move.g5;
-        case 5:
-          return Move.g6;
-        case 6:
-          return Move.g7;
-        case 7:
-          return Move.g8;
-      }
-    case 7:
-      switch (y) {
-        case 0:
-          return Move.h1;
-        case 1:
-          return Move.h2;
-        case 2:
-          return Move.h3;
-        case 3:
-          return Move.h4;
-        case 4:
-          return Move.h5;
-        case 5:
-          return Move.h6;
-        case 6:
-          return Move.h7;
-        case 7:
-          return Move.h8;
-      }
-  }
-
-  throw 'Unknow move ' + x.toString() + ' ' + y.toString();
 }
 
 // Unit tests for private methods
