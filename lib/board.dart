@@ -112,7 +112,7 @@ class Board {
       return Win.Tie;
     }
   }
-  
+
   int black() {
     var map = new Map();
     var count = 0;
@@ -125,10 +125,10 @@ class Board {
         }
       }
     }
-    
+
     return count;
   }
-  
+
   int white() {
     var map = new Map();
     var count = 0;
@@ -141,7 +141,7 @@ class Board {
         }
       }
     }
-    
+
     return count;
   }
 
@@ -1939,5 +1939,6 @@ void main() {
 bool _eq(a, b) {
   if (!(a == b)) {
     throw a.toString() + ' and ' + b.toString() + ' are not equal';
-  };
+  }
+  ;
 }

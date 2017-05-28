@@ -80,7 +80,7 @@ void main() {
       } else {
         stderr.writeln('No avaliable Black move');
       }
-      
+
       drawBoard(b);
 
       var mw;
