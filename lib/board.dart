@@ -92,12 +92,16 @@ enum Move {
 }
 
 /// Reversi Board.
+///
+/// The Reversi board can be either classical or reversed.
 class Board {
   List<List<Disc>> _board;
+  bool _isReversed;
 
-  Board() {
+  Board([reversed = false]) {
     _board = new List<List<Disc>>(_SIZE);
-
+    _isReversed = reversed;
+    
     for (var i = 0; i < _SIZE; i++) {
       _board[i] = new List<Disc>(_SIZE);
     }
@@ -125,16 +129,27 @@ class Board {
             break;
           case Disc.White:
             map[Disc.White]++;
+            break;
         }
       }
     }
 
-    if (map[Disc.Black] > map[Disc.White]) {
-      return Win.Black;
-    } else if (map[Disc.Black] < map[Disc.White]) {
-      return Win.White;
+    if (!_isReversed) {
+      if (map[Disc.Black] > map[Disc.White]) {
+        return Win.Black;
+      } else if (map[Disc.Black] < map[Disc.White]) {
+        return Win.White;
+      } else {
+        return Win.Tie;
+      }
     } else {
-      return Win.Tie;
+      if (map[Disc.Black] < map[Disc.White]) {
+        return Win.Black;
+      } else if (map[Disc.Black] > map[Disc.White]) {
+        return Win.White;
+      } else {
+        return Win.Tie;
+      }
     }
   }
 

@@ -5,10 +5,23 @@ import 'bot.dart';
 import 'board.dart';
 import 'utils.dart';
 
-/// A easy level Reversi bot.
+/// A Factory Class for EasyBot.
+///
+/// You may select either classical or reversed bot.
+class EasyBot implements Bot {
+  factory EasyBot(Disc disc, [reversed = false]) {
+    if (reversed == false) {
+      return new EasyClassicalBot(disc);
+    } else {
+      throw UnimplementedError('No available reversed bot');
+    }
+  }
+}
+
+/// A easy level classical Reversi bot.
 ///
 /// We use only one level weight table for its AI, intending for beginners.
-class EasyBot implements Bot {
+class EasyClassicalBot implements Bot {
   static Matrix _weights = new Matrix.fromMatrix([
     [99, -8, 8, 6, 6, 8, -8, 99],
     [-8, -24, -4, -3, -3, -4, -24, -8],
@@ -22,7 +35,7 @@ class EasyBot implements Bot {
 
   Disc _disc;
 
-  EasyBot(Disc disc) {
+  EasyClassicalBot(Disc disc) {
     _disc = disc;
   }
 
