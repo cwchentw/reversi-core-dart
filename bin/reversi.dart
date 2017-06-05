@@ -2,6 +2,19 @@ import 'dart:io';
 import 'package:reversi/reversi.dart';
 
 void main() {
+  bool isReversed;
+  while (isReversed == null) {
+    stdout.write("Please choose game type (C/c) Classical, (R/r) Reversed: ");
+    String input = stdin.readLineSync();
+    if (input == "C" || input == "c") {
+      isReversed = false;
+    } else if (input == "R" || input == "r") {
+      isReversed = true;
+    } else {
+      stderr.writeln("Invalid game type");
+    }
+  }
+
   Disc side;
   while (side == null) {
     stdout.write("Please choose your side (B/b) Black, (W/w) White: ");
@@ -15,9 +28,9 @@ void main() {
     }
   }
 
-  Board b = new Board();
+  Board b = new Board(reversed: isReversed);
   if (side == Disc.Black) {
-    Bot bot = new EasyBot(Disc.White);
+    Bot bot = new EasyBot(Disc.White, reversed: isReversed);
 
     while (true) {
       drawBoard(b);
@@ -66,7 +79,7 @@ void main() {
       }
     }
   } else if (side == Disc.White) {
-    Bot bot = new EasyBot(Disc.Black);
+    Bot bot = new EasyBot(Disc.Black, reversed: isReversed);
 
     while (true) {
       var isBlackMoved = false;

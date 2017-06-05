@@ -98,10 +98,10 @@ class Board {
   List<List<Disc>> _board;
   bool _isReversed;
 
-  Board([reversed = false]) {
+  Board({reversed = false}) {
     _board = new List<List<Disc>>(_SIZE);
     _isReversed = reversed;
-    
+
     for (var i = 0; i < _SIZE; i++) {
       _board[i] = new List<Disc>(_SIZE);
     }
