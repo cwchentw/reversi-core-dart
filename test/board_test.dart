@@ -11,6 +11,28 @@ void main() {
     expect(b[Move.d4], Disc.White);
   });
 
+  test('Board hashCode', () {
+    Board b1 = new Board();
+    Board b2 = new Board();
+
+    expect(b1, b2);
+
+    var map = new Map();
+    map[b1] = 3;
+    expect(map[b2], 3);
+  });
+
+  test('Board clone', () {
+    Board b1 = new Board();
+    Board b2 = b1.clone;
+
+    expect(b1, b2);
+
+    b2[Move.c4] = Disc.Black;
+
+    expect(b1 == b2, false);
+  });
+
   /*
   |  |  |  |  |  |  |  |  |
   -------------------------

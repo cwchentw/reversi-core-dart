@@ -112,6 +112,50 @@ class Board {
     _setAt(Move.e5, Disc.White);
   }
 
+  int get hashCode {
+    int code = 1 + _isReversed.hashCode;
+
+    for (var i = 0; i < _SIZE; i++) {
+      for (var j = 0; j < _SIZE; j++) {
+        if (_board[i][j] == Disc.Black) {
+          code += 31 * code + Disc.Black.hashCode;
+        } else if (_board[i][j] == Disc.White) {
+          code += 31 * code + Disc.White.hashCode;
+        }
+      }
+    }
+
+    return code;
+  }
+
+  bool operator ==(other) {
+    if (_isReversed != other._isReversed) {
+      return false;
+    }
+
+    for (var i = 0; i < _SIZE; i++) {
+      for (var j = 0; j < _SIZE; j++) {
+        if (_board[i][j] != other._board[i][j]) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  Board get clone {
+    Board b = new Board(reversed: _isReversed);
+
+    for (var i = 0; i < _SIZE; i++) {
+      for (var j = 0; j < _SIZE; j++) {
+        b._board[i][j] = _board[i][j];
+      }
+    }
+
+    return b;
+  }
+
   /// Show the winner of the board.
   ///
   /// This method only show current winner. Therefore, only call it when the game is over.
