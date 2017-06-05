@@ -10,11 +10,11 @@ Install the console program:
 pub global activate reversi
 ```
 
-You may install the package locally:
+You may install the package locally as a library:
 
 ```
 dependencies:
-  reversi: "^0.1.1"
+  reversi: "^0.2.0"
 ```
 
 ## Usage
@@ -52,10 +52,13 @@ Please move your disc (a1-h8): ...
 
 Dart is a cross-platform programming language capable of web frontend, web backend, mobile, and console applications. The package implemented the core business logic for Reversi. You may utilize this package for diverse applications.
 
-A sample code:
+A sample code for classical Reversi:
 
 ```
+// Default to classical Reversi.
 Board b = new Board();
+
+// Default to bot for classical Reversi.
 Bot bot = new EasyBot(Disc.White);
 
 // The game loop.
