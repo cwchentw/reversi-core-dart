@@ -5,7 +5,7 @@ final _pattern = new RegExp(r'^[a-h][1-8]$');
 /// Check whether the string fits Move format.
 ///
 /// A valid move format is like 'd3'. Its pattern is <pre>/^[a-h][1-8]$/</pre>.
-bool checkMove(string s) {
+bool checkMove(String s) {
   if (s.contains(_pattern)) {
     return true;
   }
@@ -27,7 +27,7 @@ List<int> move2Loc(Move m) {
 /// Convert string to Reversi move.
 ///
 /// You should check the validity of the string before using this method.
-Move str2Move(string s) {
+Move str2Move(String s) {
   final ncol = s.substring(0, 1).codeUnitAt(0);
   final nrow = int.parse(s.substring(1, 2));
 
@@ -57,6 +57,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.a8;
       }
+    break;
     case 1:
       switch (y) {
         case 0:
@@ -76,6 +77,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.b8;
       }
+    break;
     case 2:
       switch (y) {
         case 0:
@@ -95,6 +97,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.c8;
       }
+    break;
     case 3:
       switch (y) {
         case 0:
@@ -114,6 +117,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.d8;
       }
+    break;
     case 4:
       switch (y) {
         case 0:
@@ -133,6 +137,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.e8;
       }
+    break;
     case 5:
       switch (y) {
         case 0:
@@ -152,6 +157,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.f8;
       }
+    break;
     case 6:
       switch (y) {
         case 0:
@@ -171,6 +177,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.g8;
       }
+    break;
     case 7:
       switch (y) {
         case 0:
@@ -190,6 +197,7 @@ Move loc2Move(int x, int y) {
         case 7:
           return Move.h8;
       }
+    break;
   }
 
   throw 'Unknow move ' + x.toString() + ' ' + y.toString();
