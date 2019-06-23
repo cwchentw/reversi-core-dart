@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:reversi/reversi.dart';
+import '../lib/reversi.dart';
 
 void main() {
   bool isReversed;
